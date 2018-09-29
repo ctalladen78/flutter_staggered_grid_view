@@ -1,8 +1,6 @@
-# flutter_app
+# Staggered Grid Example 
 
-A new Flutter application.
+ https://github.com/ctalladen78/flutter_staggered_grid_view
 
-## Getting Started
+ https://github.com/ezrasandzerbell/Flutter-Pinterest-Staggered-Grid
 
-For help getting started with Flutter, view our online
-[documentation](https://flutter.io/).
