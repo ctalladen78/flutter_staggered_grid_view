@@ -1,11 +1,22 @@
 import 'package:flutter/material.dart';
 // import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'ImageGrid.dart';
+import 'sliver.dart';
 
 void main() => runApp(new MyApp());
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  MyAppState createState() => new MyAppState();
+
+}
+
+class MyAppState extends State<MyApp> {
   // This widget is the root of your application.
+  static const Curve scrollCurve = Curves.fastOutSlowIn;
+  final PageController controller = new PageController();
+  int _currentIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
@@ -21,7 +32,45 @@ class MyApp extends StatelessWidget {
         // counter didn't reset back to zero; the application is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: new ImageTile(),
+      // home: new ImageTile(),
+      home: new Scaffold(
+        // body: new ImageTile(),
+        body: new PageView(
+          controller: controller,
+          onPageChanged: (idx) => setState(() => _currentIndex = idx),
+          children: <Widget>[
+            new SliverSamplePage(),
+            new ImageTile(),
+            // new ImageTile()
+          ],
+
+        ),
+        bottomNavigationBar: new BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          currentIndex: _currentIndex,
+          onTap: (int index) {
+            setState(() {
+              _currentIndex = index;
+              controller.animateToPage(
+                _currentIndex,
+                duration: kTabScrollDuration,
+                curve: scrollCurve,
+              );
+            });
+          },
+          items: <BottomNavigationBarItem>[
+            new BottomNavigationBarItem(
+              icon: new Icon(Icons.home),
+              title: new Text('Home'),
+            ),
+            new BottomNavigationBarItem(
+              icon: new Icon(Icons.image),
+              title: new Text('Image'),
+            ),
+           
+          ],
+        ),
+      ),
     );
   }
 }
